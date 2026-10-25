@@ -1,0 +1,30 @@
+function randomBetween(lower, upper) {
+    return Math.floor(lower + Math.random() * (upper - lower));
+}
+
+function fill2DArr(noOfTiles, defaultValue) {
+    const defaultArr = [];
+    for (let i = 0; i < noOfTiles; i++) {
+        const arr = new Array(noOfTiles).fill(defaultValue);
+        defaultArr.push(arr);
+    }
+    return defaultArr;
+}
+
+function createTiles(noOfTiles) {
+    const defaultValues = [2, 4];
+    const Tiles = fill2DArr(noOfTiles, 0);
+    const rowOfFirstDefault = randomBetween(0, noOfTiles);
+    const colOfFirstDefault = randomBetween(0, noOfTiles);
+    const rowOfSecondDefault = randomBetween(0, noOfTiles);
+    const colOfSecondDefault = randomBetween(0, noOfTiles);
+
+    Tiles[rowOfFirstDefault][colOfFirstDefault] = defaultValues[randomBetween(0, 2)];
+    Tiles[rowOfSecondDefault][colOfSecondDefault] = defaultValues[randomBetween(0, 2)];
+
+    return Tiles;
+}
+
+module.exports = {
+    createTiles,
+}

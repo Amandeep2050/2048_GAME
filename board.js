@@ -20,10 +20,15 @@ function createBoard(numberOfRows, startPos, size, lineThickness) {
     return board;
 }
 
-function drawBoard(board) {
+function drawBoard(board, Tiles, tilesConfig) {
     for (let row = 0; row < board.length; row++) {
         for (let col = 0; col < board[row].length; col++) {
-            r.DrawRectangleLinesEx(board[row][col], 2, r.BLACK);
+            if (Tiles[row][col] === 0) {
+                r.DrawRectangleLinesEx(board[row][col], 2, r.BLACK);
+            } else {
+                r.DrawRectangleLinesEx(board[row][col], 2, r.BLACK);
+                r.DrawText(`${Tiles[row][col]}`, board[row][col].x + tilesConfig.posPercent.x, board[row][col].y + tilesConfig.posPercent.y, tilesConfig.fontSize, r.BLACK);
+            }
         }
     }
 }

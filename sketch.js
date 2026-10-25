@@ -1,5 +1,6 @@
 const r = require("raylib");
 const b = require("./board");
+const t = require("./tiles");
 
 function running() {
     return !r.WindowShouldClose();
@@ -21,6 +22,15 @@ function setup() {
     const size = 100;
     const lineThickness = 2;
 
+    const Tiles = t.createTiles(numberOfRows);
+    const tilesConfig = {
+        posPercent: {
+            x: 35 / 100 * size,
+            y: 30 / 100 * size,
+        },
+        fontSize: size / 2,
+    }
+
     const board = b.createBoard(numberOfRows, startPos, size, lineThickness);
 
     r.SetTraceLogLevel(r.LOG_NONE);
@@ -30,6 +40,8 @@ function setup() {
     return {
         screen,
         board,
+        Tiles,
+        tilesConfig,
     };
 }
 
@@ -41,7 +53,7 @@ function draw(world) {
     r.BeginDrawing();
     r.ClearBackground(r.WHITE);
 
-    b.drawBoard(world.board);
+    b.drawBoard(world.board, world.Tiles, world.tilesConfig);
 
     r.EndDrawing();
 }
