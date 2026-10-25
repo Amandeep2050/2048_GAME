@@ -1,11 +1,11 @@
-function isAdditionLeft(result, shiftConfigs, i) {
+function isAdditionRight(result, shiftConfigs, i) {
     const isZeroIndexInvalid = shiftConfigs.indexOfZero < result.length - 1;
     const areAdjucentsEqual = result[shiftConfigs.indexOfZero + 1] === result[i];
     return !shiftConfigs.isAdditionHappened && isZeroIndexInvalid && areAdjucentsEqual;
 }
 
-function shiftLeft(result, shiftConfigs, i) {
-    if (isAdditionLeft(result, shiftConfigs, i)) {
+function shiftRight(result, shiftConfigs, i) {
+    if (isAdditionRight(result, shiftConfigs, i)) {
         result[shiftConfigs.indexOfZero + 1] += result[i];
         shiftConfigs.isAdditionHappened = true;
         return;
@@ -16,7 +16,7 @@ function shiftLeft(result, shiftConfigs, i) {
     return;
 }
 
-function shiftElesLeft(arr) {
+function shiftElesRight(arr) {
     const result = arr.slice();
     const shiftConfigs = {
         indexOfZero: -1,
@@ -32,7 +32,7 @@ function shiftElesLeft(arr) {
         }
 
         if (result[i] !== 0 && shiftConfigs.indexOfZero !== -1) {
-            shiftLeft(result, shiftConfigs, i);
+            shiftRight(result, shiftConfigs, i);
             result[i] = 0;
         }
     }
@@ -44,14 +44,14 @@ function shiftElesLeft(arr) {
 // console.log(shiftElesLeft([8, 8, 2]));
 // console.log(shiftElesLeft([1, 0, 9, 4, 4, 0, 8, 4, 4, 0]))
 
-function isAdditionRight(result, shiftConfigs, i) {
+function isAdditionLeft(result, shiftConfigs, i) {
     const isZeroIndexInvalid = shiftConfigs.indexOfZero > 0;
     const areAdjucentsEqual = result[shiftConfigs.indexOfZero - 1] === result[i];
     return !shiftConfigs.isAdditionHappened && isZeroIndexInvalid && areAdjucentsEqual;
 }
 
-function shiftRight(result, shiftConfigs, i) {
-    if (isAdditionRight(result, shiftConfigs, i)) {
+function shiftLeft(result, shiftConfigs, i) {
+    if (isAdditionLeft(result, shiftConfigs, i)) {
         result[shiftConfigs.indexOfZero - 1] += result[i];
         shiftConfigs.isAdditionHappened = true;
         return;
@@ -62,7 +62,7 @@ function shiftRight(result, shiftConfigs, i) {
     return;
 }
 
-function shiftElesRight(arr) {
+function shiftElesLeft(arr) {
     const result = arr.slice();
     const shiftConfigs = {
         indexOfZero: arr.length,
@@ -79,7 +79,7 @@ function shiftElesRight(arr) {
             result[i + 1] = 0;
         }
         if (result[i] !== 0 && shiftConfigs.indexOfZero !== arr.length) {
-            shiftRight(result, shiftConfigs, i);
+            shiftLeft(result, shiftConfigs, i);
             result[i] = 0;
         }
     }
@@ -105,7 +105,7 @@ function upShift(arr) {
 
     for (let i = 0; i < arr[0].length; i++) {
         const colElements = getCol(arr, i);
-        const leftShift = shiftElesRight(colElements);
+        const leftShift = shiftElesLeft(colElements);
 
         for (let j = 0; j < arr.length; j++) {
             result[j][i] = leftShift[j];
@@ -122,7 +122,7 @@ function downShift(arr) {
 
     for (let i = 0; i < arr[0].length; i++) {
         const colElements = getCol(arr, i);
-        const leftShift = shiftElesLeft(colElements);
+        const leftShift = shiftElesRight(colElements);
 
         for (let j = 0; j < arr.length; j++) {
             result[j][i] = leftShift[j];
@@ -159,7 +159,7 @@ function rightShift(arr) {
         for (let j = 0; j < arr[i].length; j++) {
             rowEle.push(arr[i][j]);
         }
-        const rightShiftedRow = shiftElesLeft(rowEle);
+        const rightShiftedRow = shiftElesRight(rowEle);
         result.push(rightShiftedRow);
     }
 

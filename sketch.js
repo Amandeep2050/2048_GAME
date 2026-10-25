@@ -1,6 +1,7 @@
 const r = require("raylib");
 const b = require("./board");
 const t = require("./tiles");
+const s = require("./shifts");
 
 function running() {
     return !r.WindowShouldClose();
@@ -22,6 +23,7 @@ function setup() {
     const size = 100;
     const lineThickness = 2;
 
+    const defaultValues = [2, 4];
     const Tiles = t.createTiles(numberOfRows);
     const tilesConfig = {
         posPercent: {
@@ -42,11 +44,30 @@ function setup() {
         board,
         Tiles,
         tilesConfig,
+        defaultValues,
     };
 }
 
 function update(world) {
-    // change the state
+    if (r.IsKeyPressed(r.KEY_UP)) {
+        world.Tiles = s.upShift(world.Tiles);
+        t.addRandomValue(world.Tiles);
+    }
+
+    if (r.IsKeyPressed(r.KEY_DOWN)) {
+        world.Tiles = s.downShift(world.Tiles);
+        t.addRandomValue(world.Tiles);
+    }
+
+    if (r.IsKeyPressed(r.KEY_LEFT)) {
+        world.Tiles = s.leftShift(world.Tiles);
+        t.addRandomValue(world.Tiles);
+    }
+
+    if (r.IsKeyPressed(r.KEY_RIGHT)) {
+        world.Tiles = s.rightShift(world.Tiles);
+        t.addRandomValue(world.Tiles);
+    }
 }
 
 function draw(world) {

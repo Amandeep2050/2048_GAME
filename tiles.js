@@ -1,3 +1,5 @@
+const defaultValues = [2, 4];
+
 function randomBetween(lower, upper) {
     return Math.floor(lower + Math.random() * (upper - lower));
 }
@@ -12,7 +14,6 @@ function fill2DArr(noOfTiles, defaultValue) {
 }
 
 function createTiles(noOfTiles) {
-    const defaultValues = [2, 4];
     const Tiles = fill2DArr(noOfTiles, 0);
     const rowOfFirstDefault = randomBetween(0, noOfTiles);
     const colOfFirstDefault = randomBetween(0, noOfTiles);
@@ -25,6 +26,25 @@ function createTiles(noOfTiles) {
     return Tiles;
 }
 
+function getZeroCoords(Tiles) {
+    const arrOfZeroCoords = [];
+
+    for (let i = 0; i < Tiles.length; i++) {
+        for (let j = 0; j < Tiles.length; j++) {
+            if (Tiles[i][j] === 0) arrOfZeroCoords.push([i, j]);
+        }
+    }
+
+    return arrOfZeroCoords;
+}
+
+function addRandomValue(Tiles) {
+    const zeroCoords = getZeroCoords(Tiles);
+    const coord = zeroCoords[randomBetween(0, zeroCoords.length)];
+    Tiles[coord[0]][coord[1]] = defaultValues[randomBetween(0, 2)];
+}
+
 module.exports = {
     createTiles,
+    addRandomValue,
 }
