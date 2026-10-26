@@ -1,7 +1,6 @@
 const r = require("raylib");
 const b = require("./board");
 const t = require("./tiles");
-const s = require("./shifts");
 
 function running() {
     return !r.WindowShouldClose();
@@ -15,25 +14,28 @@ function setup() {
         FPS: 40,
     };
 
-    const numberOfRows = 3;
-    const startPos = {
-        x: 100,
-        y: 100,
+    const boardConfig = {
+        numberOfRows: 5,
+        startPos: {
+            x: 100,
+            y: 100,
+        },
+        cellSize: 50,
+        lineThickness: 2,
     }
-    const size = 100;
-    const lineThickness = 2;
+
+    board = b.createBoard(boardConfig);
 
     const tilesConfig = {
-        Tiles: t.createTiles(numberOfRows),
+        Tiles: t.createTiles(boardConfig.numberOfRows),
         defaultValues: [2, 4],
         posPercent: {
-            x: 35 / 100 * size,
-            y: 30 / 100 * size,
+            x: 35 / 100 * boardConfig.cellSize,
+            y: 30 / 100 * boardConfig.cellSize,
         },
-        fontSize: size / 2,
+        fontSize: boardConfig.cellSize / 2,
     }
 
-    const board = b.createBoard(numberOfRows, startPos, size, lineThickness);
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(screen.WIDTH, screen.HEIGHT, screen.TITLE);
@@ -46,28 +48,8 @@ function setup() {
     };
 }
 
-
-
 function update(world) {
-    if (r.IsKeyPressed(r.KEY_UP)) {
-        const up = s.upShift(world.tilesConfig.Tiles);
-        t.updateTiles(world.tilesConfig, up);
-    }
-
-    if (r.IsKeyPressed(r.KEY_DOWN)) {
-        const down = s.downShift(world.tilesConfig.Tiles);
-        t.updateTiles(world.tilesConfig, down);
-    }
-
-    if (r.IsKeyPressed(r.KEY_LEFT)) {
-        const left = s.leftShift(world.tilesConfig.Tiles);
-        t.updateTiles(world.tilesConfig, left);
-    }
-
-    if (r.IsKeyPressed(r.KEY_RIGHT)) {
-        const right = s.rightShift(world.tilesConfig.Tiles);
-        t.updateTiles(world.tilesConfig, right);
-    }
+    t.updateTiles(world.tilesConfig);
 }
 
 function draw(world) {

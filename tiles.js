@@ -1,3 +1,6 @@
+const s = require("./shifts");
+const r = require("raylib");
+
 const defaultValues = [2, 4];
 
 function randomBetween(lower, upper) {
@@ -15,6 +18,7 @@ function fill2DArr(noOfTiles, defaultValue) {
 
 function createTiles(noOfTiles) {
     const Tiles = fill2DArr(noOfTiles, 0);
+
     const rowOfFirstDefault = randomBetween(0, noOfTiles);
     const colOfFirstDefault = randomBetween(0, noOfTiles);
     const rowOfSecondDefault = randomBetween(0, noOfTiles);
@@ -26,7 +30,7 @@ function createTiles(noOfTiles) {
     return Tiles;
 }
 
-function getZeroCoords(Tiles) {
+function getCoordsOfZeros(Tiles) {
     const arrOfZeroCoords = [];
 
     for (let i = 0; i < Tiles.length; i++) {
@@ -39,7 +43,7 @@ function getZeroCoords(Tiles) {
 }
 
 function addRandomValue(Tiles) {
-    const zeroCoords = getZeroCoords(Tiles);
+    const zeroCoords = getCoordsOfZeros(Tiles);
     const coord = zeroCoords[randomBetween(0, zeroCoords.length)];
     Tiles[coord[0]][coord[1]] = defaultValues[randomBetween(0, 2)];
 }
@@ -56,11 +60,32 @@ function are2dArrayEqual(arr1, arr2) {
     return true;
 }
 
-function updateTiles(tileConfigs, formatedTiles) {
-    if (!are2dArrayEqual(tileConfigs.Tiles, formatedTiles)) {
-        console.log("updated");
-        tileConfigs.Tiles = formatedTiles;
-        addRandomValue(tileConfigs.Tiles);
+function moveTiles(tilesConfig, formatedTiles) {
+    if (!are2dArrayEqual(tilesConfig.Tiles, formatedTiles)) {
+        tilesConfig.Tiles = formatedTiles;
+        addRandomValue(tilesConfig.Tiles);
+    }
+}
+
+function updateTiles(tilesConfig) {
+    if (r.IsKeyPressed(r.KEY_UP)) {
+        const up = s.upShift(tilesConfig.Tiles);
+        moveTiles(tilesConfig, up);
+    }
+
+    if (r.IsKeyPressed(r.KEY_DOWN)) {
+        const down = s.downShift(tilesConfig.Tiles);
+        moveTiles(tilesConfig, down);
+    }
+
+    if (r.IsKeyPressed(r.KEY_LEFT)) {
+        const left = s.leftShift(tilesConfig.Tiles);
+        moveTiles(tilesConfig, left);
+    }
+
+    if (r.IsKeyPressed(r.KEY_RIGHT)) {
+        const right = s.rightShift(tilesConfig.Tiles);
+        moveTiles(tilesConfig, right);
     }
 }
 
