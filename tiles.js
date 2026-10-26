@@ -44,7 +44,27 @@ function addRandomValue(Tiles) {
     Tiles[coord[0]][coord[1]] = defaultValues[randomBetween(0, 2)];
 }
 
+function are2dArrayEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr1.length; j++) {
+            if (arr1[i][j] !== arr2[i][j]) return false;
+        }
+    }
+
+    return true;
+}
+
+function updateTiles(tileConfigs, formatedTiles) {
+    if (!are2dArrayEqual(tileConfigs.Tiles, formatedTiles)) {
+        console.log("updated");
+        tileConfigs.Tiles = formatedTiles;
+        addRandomValue(tileConfigs.Tiles);
+    }
+}
+
 module.exports = {
     createTiles,
-    addRandomValue,
+    updateTiles,
 }

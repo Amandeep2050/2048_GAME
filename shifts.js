@@ -100,36 +100,43 @@ function getCol(arr, colNumber) {
     return col;
 }
 
+function transpose(arr) {
+    const transposeArr = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        const rowArr = [];
+        for (let j = 0; j < arr[i].length; j++) {
+            rowArr.push(arr[j][i]);
+        }
+        transposeArr.push(rowArr);
+    }
+    return transposeArr;
+}
+
 function upShift(arr) {
-    const result = arr.slice();
+    const result = [];
 
     for (let i = 0; i < arr[0].length; i++) {
         const colElements = getCol(arr, i);
         const leftShift = shiftElesLeft(colElements);
-
-        for (let j = 0; j < arr.length; j++) {
-            result[j][i] = leftShift[j];
-        }
+        result.push(leftShift);
     }
 
-    return result;
+    return transpose(result);
 }
 
 // console.log(upShift([[8, 2, 0], [0, 2, 4], [8, 2, 0]]));
 
 function downShift(arr) {
-    const result = arr.slice();
+    const result = [];
 
     for (let i = 0; i < arr[0].length; i++) {
         const colElements = getCol(arr, i);
-        const leftShift = shiftElesRight(colElements);
-
-        for (let j = 0; j < arr.length; j++) {
-            result[j][i] = leftShift[j];
-        }
+        const rightShift = shiftElesRight(colElements);
+        result.push(rightShift);
     }
 
-    return result;
+    return transpose(result);
 }
 
 // console.log(downShift([[8, 2, 0], [0, 2, 4], [8, 2, 0]]));

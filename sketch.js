@@ -23,9 +23,9 @@ function setup() {
     const size = 100;
     const lineThickness = 2;
 
-    const defaultValues = [2, 4];
-    const Tiles = t.createTiles(numberOfRows);
     const tilesConfig = {
+        Tiles: t.createTiles(numberOfRows),
+        defaultValues: [2, 4],
         posPercent: {
             x: 35 / 100 * size,
             y: 30 / 100 * size,
@@ -42,31 +42,31 @@ function setup() {
     return {
         screen,
         board,
-        Tiles,
         tilesConfig,
-        defaultValues,
     };
 }
 
+
+
 function update(world) {
     if (r.IsKeyPressed(r.KEY_UP)) {
-        world.Tiles = s.upShift(world.Tiles);
-        t.addRandomValue(world.Tiles);
+        const up = s.upShift(world.tilesConfig.Tiles);
+        t.updateTiles(world.tilesConfig, up);
     }
 
     if (r.IsKeyPressed(r.KEY_DOWN)) {
-        world.Tiles = s.downShift(world.Tiles);
-        t.addRandomValue(world.Tiles);
+        const down = s.downShift(world.tilesConfig.Tiles);
+        t.updateTiles(world.tilesConfig, down);
     }
 
     if (r.IsKeyPressed(r.KEY_LEFT)) {
-        world.Tiles = s.leftShift(world.Tiles);
-        t.addRandomValue(world.Tiles);
+        const left = s.leftShift(world.tilesConfig.Tiles);
+        t.updateTiles(world.tilesConfig, left);
     }
 
     if (r.IsKeyPressed(r.KEY_RIGHT)) {
-        world.Tiles = s.rightShift(world.Tiles);
-        t.addRandomValue(world.Tiles);
+        const right = s.rightShift(world.tilesConfig.Tiles);
+        t.updateTiles(world.tilesConfig, right);
     }
 }
 
@@ -74,7 +74,7 @@ function draw(world) {
     r.BeginDrawing();
     r.ClearBackground(r.WHITE);
 
-    b.drawBoard(world.board, world.Tiles, world.tilesConfig);
+    b.drawBoard(world.board, world.tilesConfig);
 
     r.EndDrawing();
 }
